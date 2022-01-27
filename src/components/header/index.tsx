@@ -1,5 +1,5 @@
 import logoimg from '../../assets/Logo.svg'
-import { Container } from './styles'
+import { Container, Content } from './styles'
 
 
 export function Header() {
@@ -7,8 +7,10 @@ export function Header() {
     return (
 
         <Container>
-            <img src={logoimg} alt="BSmoney" />
-            <button type='button'> Nova transação </button>
+            <Content>
+                <img src={logoimg} alt="BSmoney" />
+                <button type='button'> Nova transação </button>
+            </Content>
         </Container>
 
     )
