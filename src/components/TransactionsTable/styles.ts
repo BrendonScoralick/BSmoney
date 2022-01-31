@@ -24,10 +24,10 @@ table{
         &:first-child{
             color: var(--text-title);
         }
-        &.receita {
+        &.deposit {
             color: var(--green);
         }
-        &.despesa {
+        &.withdraw {
             color: var(--red);
         }
         
