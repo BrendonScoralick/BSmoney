@@ -3,8 +3,9 @@ import { Container, RadioBox, TransactonTypeContainer } from "./styles";
 import closeimg from '../../assets/Vector.svg';
 import entradaimg from '../../assets/Entradas.svg';
 import saidaimg from '../../assets/Saídas.svg';
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useContext } from "react";
 import { api } from "../services/api";
+import { useTransactions } from "../../hooks/useTransactions";
 
 interface NewTransactionModalProps {
 
@@ -16,9 +17,14 @@ interface NewTransactionModalProps {
 
 
 export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+    const { createTransaction } = useTransactions();
+    ;
+
+
+
 
     const [title, setTitle] = useState('');
-    const [value, setValue] = useState(0);
+    const [amount, setAmount] = useState(0);
     const [category, setCategory] = useState('');
 
     const [type, setType] = useState('deposit');
@@ -26,18 +32,23 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
 
 
 
-    function handleCreateNewTransaction(event: FormEvent) {
+    async function handleCreateNewTransaction(event: FormEvent) {
 
         event.preventDefault();
 
-        const data = {
+        await createTransaction({
             title,
-            value,
+            amount,
+            category,
             type,
-            category
-        }
+        })
 
-        api.post('/transactions', data);
+        setTitle('');
+        setAmount(0);
+        setCategory('');
+        setType('deposit');
+
+        onRequestClose();
 
     }
 
@@ -63,8 +74,8 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
                     onChange={event => setTitle(event.target.value)}
                 />
                 <input type="number" placeholder="Valor"
-                    value={value}
-                    onChange={event => setValue(Number(event.target.value))}
+                    value={amount}
+                    onChange={event => setAmount(Number(event.target.value))}
                 />
 
                 <TransactonTypeContainer>
